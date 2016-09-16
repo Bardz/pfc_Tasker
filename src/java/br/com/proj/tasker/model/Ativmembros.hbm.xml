@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 27, 2014 5:58:11 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.com.proj.tasker.model.Ativmembros" table="ativmembros" schema="public">
+        <id name="idAtiv" type="int">
+            <column name="id_ativ" />
+            <generator class="sequence">
+                <param name="sequence">ativmembros_id_ativ_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="cargo" class="br.com.proj.tasker.model.Cargo" fetch="select">
+            <column name="id_cargo" />
+        </many-to-one>
+        <many-to-one name="pessoa" class="br.com.proj.tasker.model.Pessoa" fetch="select">
+            <column name="id_membro" not-null="true" />
+        </many-to-one>
+        <many-to-one name="perfil" class="br.com.proj.tasker.model.Perfil" fetch="select">
+            <column name="id_perfil" not-null="true" />
+        </many-to-one>
+        <many-to-one name="grupo" class="br.com.proj.tasker.model.Grupo" fetch="select">
+            <column name="id_grupo" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

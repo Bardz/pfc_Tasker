@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 11, 2014 9:57:20 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.com.proj.tasker.model.Tarefa" table="tarefa" schema="public">
+        <id name="idTar" type="int">
+            <column name="id_tar" />
+            <generator class="sequence">
+                <param name="sequence">tarefa_id_tar_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="cargo" class="br.com.proj.tasker.model.Cargo" fetch="select">
+            <column name="id_cargo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="projeto" class="br.com.proj.tasker.model.Projeto" fetch="select">
+            <column name="id_proj" not-null="true" />
+        </many-to-one>
+        <property name="descricao" type="string">
+            <column name="descricao" length="50" not-null="true" />
+        </property>
+        <property name="observacoes" type="string">
+            <column name="observacoes" length="50" not-null="true" />
+        </property>
+        <property name="dataCri" type="date">
+            <column name="data_cri" length="13" not-null="true" />
+        </property>
+        <property name="status" type="string">
+            <column name="status" not-null="true" />
+        </property>
+        <property name="dataFin" type="date">
+            <column name="data_fin" length="13" />
+        </property>
+        <property name="classificacao" type="java.lang.Integer">
+            <column name="classificacao" />
+        </property> 
+        <property name="dataIni" type="date">
+            <column name="data_ini" length="13" />
+        </property>
+        <set name="logrealizacaos" table="logrealizacao" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_tar" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Logrealizacao" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 11, 2014 9:57:20 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.com.proj.tasker.model.Cargo" table="cargo" schema="public">
+        <id name="idCargo" type="java.lang.Integer">
+            <column name="id_cargo" />
+            <generator class="sequence">
+                <param name="sequence">cargo_id_cargo_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="pessoa" class="br.com.proj.tasker.model.Pessoa" fetch="select">
+            <column name="id_admin" not-null="true" />
+        </many-to-one>
+        <many-to-one name="grupo" class="br.com.proj.tasker.model.Grupo" fetch="select">
+            <column name="id_grupo" not-null="true" />
+        </many-to-one>
+        <property name="nome" type="string">
+            <column name="nome" not-null="true" />
+        </property>
+        <set name="tarefas" table="tarefa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cargo" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Tarefa" />
+        </set>
+        <set name="ativmembroses" table="ativmembros" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cargo" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Ativmembros" />
+        </set>
+    </class>
+</hibernate-mapping>

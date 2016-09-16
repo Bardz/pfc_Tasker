@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/tasker</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">postgres</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    <mapping resource="br/com/proj/tasker/model/Telefone.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Pessoa.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Grupo.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Endereco.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Projeto.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Plano.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Usuario.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Cartaocred.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Perfil.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Ativmembros.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Tarefa.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Ativacao.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Cargo.hbm.xml"/>
+    <mapping resource="br/com/proj/tasker/model/Logrealizacao.hbm.xml"/>
+   </session-factory>
+</hibernate-configuration>

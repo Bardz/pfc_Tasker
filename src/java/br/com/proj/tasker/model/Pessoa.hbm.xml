@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 27, 2014 5:58:11 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.com.proj.tasker.model.Pessoa" table="pessoa" schema="public">
+        <id name="idPes" type="java.lang.Integer">
+            <column name="id_pes" />
+            <generator class="sequence" >
+                <param name="sequence">pessoa_id_pes_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="usuario" class="br.com.proj.tasker.model.Usuario" fetch="select">
+            <column name="id_user" not-null="true" unique="true" />
+        </many-to-one>
+        <property name="nome" type="string">
+            <column name="nome" length="25" not-null="true" />
+        </property>
+        <property name="sobrenome" type="string">
+            <column name="sobrenome" length="25" not-null="true" />
+        </property>
+        <property name="dataNasc" type="date">
+            <column name="data_nasc" length="13" not-null="true" />
+        </property>
+        <property name="cpf" type="string">
+            <column name="cpf" length="11" not-null="true" unique="true" />
+        </property>
+        <property name="sexo" type="char">
+            <column name="sexo" length="1" not-null="true" />
+        </property>
+        <set name="telefones" table="telefone" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_pes" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Telefone" />
+        </set>
+        <set name="ativmembroses" table="ativmembros" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_membro" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Ativmembros" />
+        </set>
+        <set name="cartaocreds" table="cartaocred" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_pes" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Cartaocred" />
+        </set>
+        <set name="logrealizacaos" table="logrealizacao" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_realiz" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Logrealizacao" />
+        </set>
+        <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_admin" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Cargo" />
+        </set>
+        <set name="enderecos" table="endereco" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_pes" not-null="true" />
+            </key>
+            <one-to-many class="br.com.proj.tasker.model.Endereco" />
+        </set>
+    </class>
+</hibernate-mapping>

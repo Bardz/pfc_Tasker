@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script src="resources/js/login.js"/>
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+        <script src="resources/js/pace-0.5.6/pace.js" type="text/javascript"></script>
+    </h:head>
+    <title>P.TaskMaster - Área de Endereço</title>
+    <h:body onload="#{enderecoBean.getEnderecoUser()}">
+        <p:menubar autoDisplay="false">
+            <f:facet name="options">
+                <div id="menuBarLogin">                                                
+                    <p:graphicImage id="logo" value="/resources/img/logos.png" /> 
+                    <div id="teste">
+                        <h:outputLabel for="teste" value="Bem vindo, Sr(a)  " />
+                        <a class="link" href="areausuario.xhtml">
+                            <h:outputLabel style="cursor: pointer" for="teste1" value="#{usuarioBean.usuario.email}" />
+                        </a>
+                        <p:commandButton id="logoutButton" value="Deseja Sair?" actionListener="#{usuarioBean.logout}"/>
+                    </div>
+                </div>
+            </f:facet> 
+        </p:menubar>
+        <div id="dPainel" height="300">
+            <p:graphicImage value="/resources/img/p-end.jpg" id="painel" /> 
+        </div>        
+        <h:form id="frmPessoa">
+            <div id="menuBarItens">
+                <h:form id="frmPrincipal">
+                    <p:growl id="growl" showDetail="true" life="3000" />  
+                    <p:menubar autoDisplay="false">  
+                        <p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" style="margin-left: 50px"/>  
+                        <p:menuitem value="Planos" url="/planos.xhtml" icon="ui-icon-cart" style="margin-left: 200px"/>   
+                        <p:menuitem value="Informações" url="/informacoes.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>  
+                        <p:menuitem value="Fale Conosco" url="/fale.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>                  
+                    </p:menubar>  
+                </h:form>
+            </div> 
+            <p:tieredMenu style="width:200px" id="tieredMenu">  
+                <p:menuitem value="Usuario" url="/areausuario.xhtml"/>
+                <p:submenu label="Cadastro">  
+                    <p:menuitem value="Pessoa" icon="ui-icon-plus" url="/areapessoa.xhtml"/>  
+                    <p:menuitem value="Endereço" icon="ui-icon-plus" url="/areaendereco.xhtml" />
+                    <p:menuitem value="Telefone" icon="ui-icon-plus" url="/areatelefone.xhtml" />
+                    <p:menuitem value="Cartão de Crédito" icon="ui-icon-plus" url="/areacardcred.xhtml" />
+                </p:submenu>  
+                <p:submenu label="Grupo">
+                    <p:menuitem value="Gerenciar Grupos" url="/areagrupo.xhtml"/>
+                </p:submenu>                
+            </p:tieredMenu> 
+            <div id="assuntos">
+                <p:growl id="growl" showDetail="true" />
+
+                <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Rua:" />  
+                    <h:outputText value="Bairro:" />  
+                    <p:inputText value="#{enderecoBean.endereco.rua}" style="width: 200px" readonly="true"/>
+                    <p:inputText value="#{enderecoBean.endereco.bairro}" style="width: 200px" readonly="true"/>
+
+                    <h:outputText value="CEP:" />  
+                    <h:outputText value="Numero:" />  
+                    <p:inputMask mask="99999-999" value="#{enderecoBean.endereco.cep}" readonly="true"/>
+                    <p:inputText value="#{enderecoBean.endereco.num}" readonly="true"/>
+
+                    <h:outputText value="Cidade:"/>
+                    <h:outputText value="UF:"/>
+                    <p:inputText value="#{enderecoBean.endereco.cidade}" readonly="true"/>
+                    <p:selectOneMenu  id="estado" value="#{enderecoBean.endereco.uf}" disabled="true">
+                        <f:selectItem itemLabel="" itemValue="" />  
+                        <f:selectItem itemLabel="AL" itemValue="AL" />
+                        <f:selectItem itemLabel="AP" itemValue="AP" />
+                        <f:selectItem itemLabel="AM" itemValue="AM" />  
+                        <f:selectItem itemLabel="BA" itemValue="BA" />
+                        <f:selectItem itemLabel="CE" itemValue="CE" />
+                        <f:selectItem itemLabel="DF" itemValue="DF" />  
+                        <f:selectItem itemLabel="ES" itemValue="ES" />
+                        <f:selectItem itemLabel="GO" itemValue="GO" />
+                        <f:selectItem itemLabel="MA" itemValue="MA" />  
+                        <f:selectItem itemLabel="MT" itemValue="MT" />
+                        <f:selectItem itemLabel="MS" itemValue="MS" />
+                        <f:selectItem itemLabel="MG" itemValue="MG" />  
+                        <f:selectItem itemLabel="PA" itemValue="PA" />
+                        <f:selectItem itemLabel="PB" itemValue="PB" />
+                        <f:selectItem itemLabel="PR" itemValue="PR" />  
+                        <f:selectItem itemLabel="PE" itemValue="PE" />
+                        <f:selectItem itemLabel="PI" itemValue="PI" />
+                        <f:selectItem itemLabel="RJ" itemValue="RJ" />  
+                        <f:selectItem itemLabel="RN" itemValue="RN" />
+                        <f:selectItem itemLabel="RJ" itemValue="RJ" />
+                        <f:selectItem itemLabel="RS" itemValue="RS" />  
+                        <f:selectItem itemLabel="RO" itemValue="RO" />
+                        <f:selectItem itemLabel="RR" itemValue="RR" />
+                        <f:selectItem itemLabel="SC" itemValue="SC" />
+                        <f:selectItem itemLabel="SE" itemValue="SE" />
+                        <f:selectItem itemLabel="SP" itemValue="SP" />
+                        <f:selectItem itemLabel="TO" itemValue="TO" />
+                    </p:selectOneMenu>
+                    <h:outputText value="Referência:"/>
+                    <p:inputTextarea rows="6" cols="38" value="#{enderecoBean.endereco.referencia}" readonly="true"/>
+                    <f:facet name="footer">  
+                        <p:commandButton type="button" value="Atualizar" onclick="PF('dlgAtualizar').show()"/>
+                    </f:facet>  
+
+                </h:panelGrid>
+            </div>
+        </h:form>    
+        <h:form id="frmCardAtualizar">    
+            <p:growl id="growl" showDetail="true" life="3000" />  
+            <p:dialog id="dialog" header="Atualizar Cartão de Crédito" widgetVar="dlgAtualizar" resizable="false" width="700" modal="true">  
+                <h:panelGrid columns="2" cellpadding="5">  
+                    <h:outputText value="Rua:" />  
+                    <h:outputText value="Bairro:" />  
+                    <p:inputText value="#{enderecoBean.endereco.rua}" style="width: 200px"/>
+                    <p:inputText value="#{enderecoBean.endereco.bairro}" style="width: 200px"/>
+
+                    <h:outputText value="CEP:" />  
+                    <h:outputText value="Numero:" />  
+                    <p:inputMask mask="99999-999" value="#{enderecoBean.endereco.cep}"/>
+                    <p:inputText value="#{enderecoBean.endereco.num}"/>
+
+                    <h:outputText value="Cidade:"/>
+                    <h:outputText value="UF:"/>
+                    <p:inputText value="#{enderecoBean.endereco.cidade}"/>
+                    <p:selectOneMenu  id="estado" value="#{enderecoBean.endereco.uf}">
+                        <f:selectItem itemLabel="" itemValue="" />  
+                        <f:selectItem itemLabel="AL" itemValue="AL" />
+                        <f:selectItem itemLabel="AP" itemValue="AP" />
+                        <f:selectItem itemLabel="AM" itemValue="AM" />  
+                        <f:selectItem itemLabel="BA" itemValue="BA" />
+                        <f:selectItem itemLabel="CE" itemValue="CE" />
+                        <f:selectItem itemLabel="DF" itemValue="DF" />  
+                        <f:selectItem itemLabel="ES" itemValue="ES" />
+                        <f:selectItem itemLabel="GO" itemValue="GO" />
+                        <f:selectItem itemLabel="MA" itemValue="MA" />  
+                        <f:selectItem itemLabel="MT" itemValue="MT" />
+                        <f:selectItem itemLabel="MS" itemValue="MS" />
+                        <f:selectItem itemLabel="MG" itemValue="MG" />  
+                        <f:selectItem itemLabel="PA" itemValue="PA" />
+                        <f:selectItem itemLabel="PB" itemValue="PB" />
+                        <f:selectItem itemLabel="PR" itemValue="PR" />  
+                        <f:selectItem itemLabel="PE" itemValue="PE" />
+                        <f:selectItem itemLabel="PI" itemValue="PI" />
+                        <f:selectItem itemLabel="RJ" itemValue="RJ" />  
+                        <f:selectItem itemLabel="RN" itemValue="RN" />
+                        <f:selectItem itemLabel="RJ" itemValue="RJ" />
+                        <f:selectItem itemLabel="RS" itemValue="RS" />  
+                        <f:selectItem itemLabel="RO" itemValue="RO" />
+                        <f:selectItem itemLabel="RR" itemValue="RR" />
+                        <f:selectItem itemLabel="SC" itemValue="SC" />
+                        <f:selectItem itemLabel="SE" itemValue="SE" />
+                        <f:selectItem itemLabel="SP" itemValue="SP" />
+                        <f:selectItem itemLabel="TO" itemValue="TO" />
+                    </p:selectOneMenu>
+                    <h:outputText value="Referência:"/>
+                    <p:inputTextarea rows="6" cols="38" value="#{enderecoBean.endereco.referencia}"/>
+                    <f:facet name="footer">  
+                        <p:commandButton id="loginButton" value="Atualizar" update="growl" actionListener="#{enderecoBean.atualizar()}"/>  
+                    </f:facet>    
+                </h:panelGrid>  
+            </p:dialog>
+            <p:blockUI block="dialog" trigger="loginButton" > 
+                <p:graphicImage value="/resources/img/page-loaders.gif" width="100"/>
+            </p:blockUI> 
+        </h:form>
+        <div id="footers">
+            <div id="asas">
+                <h4>P.TaskMaster</h4>
+                <h4 class="links" id="lhome"><a href="index.xhtml">Home</a></h4>
+                <h4 class="links" id="lplanos"><a href="planos.xhtml">Planos</a></h4>
+                <h4 class="links" id="linfo"><a href="informacoes.xhtml">Informações</a></h4>
+                <h4 class="links" id="lfale"><a href="fale.xhtml">Fale Conosco</a></h4>
+            </div>
+            <div id="adress">
+                <p>Rod. Zuera, Km 24<br/>
+                    Telefone: (11)0000-0000<br/>
+                    Itaquaquistão, Acre, Brasil</p>
+            </div>
+        </div>
+    </h:body>
+</html>

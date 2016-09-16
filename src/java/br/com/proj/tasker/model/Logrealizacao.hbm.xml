@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 18, 2014 4:26:28 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.com.proj.tasker.model.Logrealizacao" table="logrealizacao" schema="public">
+        <id name="idReltar" type="int">
+            <column name="id_reltar" />
+            <generator class="sequence">
+                <param name="sequence">logrealizacao_id_reltar_seq</param>
+            </generator>  
+        </id>
+        <many-to-one name="pessoa" class="br.com.proj.tasker.model.Pessoa" fetch="select">
+            <column name="id_realiz" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tarefa" class="br.com.proj.tasker.model.Tarefa" fetch="select">
+            <column name="id_tar" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Termino de Cadastro</title>
+        <script src="resources/js/login.js"/>
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+        <script src="resources/js/pace-0.5.6/pace.js" type="text/javascript"></script>
+    </h:head>
+    <h:body onload="#{pessoaBean.dialog()}">
+                <p:menubar autoDisplay="false">
+            <f:facet name="options">
+                <div id="menuBarLogin">                                                
+                    <p:graphicImage id="logo" value="/resources/img/logos.png" /> 
+                </div>
+            </f:facet> 
+        </p:menubar>
+        <div id="dPainel" height="300">
+            <p:graphicImage value="/resources/img/painel.png" id="painel" /> 
+        </div> 
+        <div id="assunt">
+        <h1>Por Favor, Termine seu Cadastro:</h1>
+        <h:form id="frmTermCad">
+
+            <p:growl id="growl" showDetail="true" />
+
+            <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                <h:outputText value="Nome:" />  
+                <h:outputText value="Sobrenome:" />  
+                <p:inputText value="#{pessoaBean.pessoa.nome}" style="width: 200px" required="true" requiredMessage="Nome"/>
+                <p:inputText value="#{pessoaBean.pessoa.sobrenome}" style="width: 200px" required="true" requiredMessage="Sobrenome"/>
+
+                <h:outputText value="Data de Nascimento:" />  
+                <h:outputText value="CPF:" />  
+                <p:inputMask mask="99/99/9999" value="#{pessoaBean.pessoa.dataNasc}" required="true" requiredMessage="Data de Nascimento">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:inputMask>
+                <p:inputMask mask="999.999.999-99" value="#{pessoaBean.pessoa.cpf}" required="true" requiredMessage="CPF"/>
+
+                <h:outputText value="Sexo:"/>
+                <p:selectOneMenu value="#{pessoaBean.pessoa.sexo}" required="true" requiredMessage="Sexo">
+                    <f:selectItem itemLabel="Selecionar" itemValue=""/> 
+                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                    <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                </p:selectOneMenu>  
+
+                <h:outputText value="Rua:" />  
+                <h:outputText value="Bairro:" />  
+                <p:inputText value="#{enderecoBean.endereco.rua}" style="width: 200px" required="true" requiredMessage="Rua"/>
+                <p:inputText value="#{enderecoBean.endereco.bairro}" style="width: 200px" required="true" requiredMessage="Bairro"/>
+
+                <h:outputText value="CEP:" />  
+                <h:outputText value="Numero:" />  
+                <p:inputMask mask="99999-999" value="#{enderecoBean.endereco.cep}" required="true" requiredMessage="CEP"/>
+                <p:inputText value="#{enderecoBean.endereco.num}" required="true" requiredMessage="Número do Endereço"/>
+
+                <h:outputText value="Cidade:"/>
+                <h:outputText value="UF:"/>
+                <p:inputText value="#{enderecoBean.endereco.cidade}" required="true" requiredMessage="Cidade"/>
+                <p:selectOneMenu  id="estado" value="#{enderecoBean.endereco.uf}" required="true" requiredMessage="UF">
+                    <f:selectItem itemLabel="" itemValue="" />  
+                    <f:selectItem itemLabel="AL" itemValue="AL" />
+                    <f:selectItem itemLabel="AP" itemValue="AP" />
+                    <f:selectItem itemLabel="AM" itemValue="AM" />  
+                    <f:selectItem itemLabel="BA" itemValue="BA" />
+                    <f:selectItem itemLabel="CE" itemValue="CE" />
+                    <f:selectItem itemLabel="DF" itemValue="DF" />  
+                    <f:selectItem itemLabel="ES" itemValue="ES" />
+                    <f:selectItem itemLabel="GO" itemValue="GO" />
+                    <f:selectItem itemLabel="MA" itemValue="MA" />  
+                    <f:selectItem itemLabel="MT" itemValue="MT" />
+                    <f:selectItem itemLabel="MS" itemValue="MS" />
+                    <f:selectItem itemLabel="MG" itemValue="MG" />  
+                    <f:selectItem itemLabel="PA" itemValue="PA" />
+                    <f:selectItem itemLabel="PB" itemValue="PB" />
+                    <f:selectItem itemLabel="PR" itemValue="PR" />  
+                    <f:selectItem itemLabel="PE" itemValue="PE" />
+                    <f:selectItem itemLabel="PI" itemValue="PI" />
+                    <f:selectItem itemLabel="RJ" itemValue="RJ" />  
+                    <f:selectItem itemLabel="RN" itemValue="RN" />
+                    <f:selectItem itemLabel="RJ" itemValue="RJ" />
+                    <f:selectItem itemLabel="RS" itemValue="RS" />  
+                    <f:selectItem itemLabel="RO" itemValue="RO" />
+                    <f:selectItem itemLabel="RR" itemValue="RR" />
+                    <f:selectItem itemLabel="SC" itemValue="SC" />
+                    <f:selectItem itemLabel="SE" itemValue="SE" />
+                    <f:selectItem itemLabel="SP" itemValue="SP" />
+                    <f:selectItem itemLabel="TO" itemValue="TO" />
+                </p:selectOneMenu>
+
+
+                <h:outputText value="Referência:"/>
+                    &nbsp;
+                <p:inputTextarea rows="6" cols="38" value="#{enderecoBean.endereco.referencia}" required="true" requiredMessage="Referência do Endereço"/>
+                    &nbsp;
+                    <h:outputText value="Número do Telefone:" />
+                    <h:outputText value="Tipo:" />
+                    <p:inputText value="#{telefoneBean.telefone.numero}" style="width: 200px" required="true" requiredMessage="Número do Telefone"/>
+                    <p:selectOneMenu value="#{telefoneBean.telefone.tipo}" required="true" requiredMessage="Tipo do Telefone">
+                        <f:selectItem itemLabel="Selecionar" itemValue=""/> 
+                        <f:selectItem itemLabel="Fixo" itemValue="Fixo"/>
+                        <f:selectItem itemLabel="Celular" itemValue="Celular"/>
+                    </p:selectOneMenu>
+
+                <h:outputText value="Número do Cartão de Credito:" />  
+                <h:outputText value="Código de Segurança:" />  
+                <p:inputMask mask="9999.9999.9999.9999" value="#{cartaoCredBean.card.num}" style="width: 200px" required="true" requiredMessage="Número de Cartão de Credito"/>
+                <p:inputMask mask="999" value="#{cartaoCredBean.card.codSeg}" style="width: 200px" required="true" requiredMessage="Código de Segurança"/>
+                <h:outputText value="Bandeira:" />  
+                &nbsp;
+                <p:selectOneMenu value="#{cartaoCredBean.card.bandeira}" required="true" requiredMessage="Bandeira do Cartão de Crédito">
+                    <f:selectItem itemLabel="Selecionar" itemValue=""/> 
+                    <f:selectItem itemLabel="VISA" itemValue="VISA"/>
+                    <f:selectItem itemLabel="Master Card" itemValue="Master Card"/>
+                </p:selectOneMenu>
+                &nbsp;
+                <f:facet name="footer">  
+                    <p:commandButton value="Cadastrar" update="growl" oncomplete="index.html">
+                        <f:actionListener binding="#{pessoaBean.inserir()}"/>
+                        <f:actionListener binding="#{enderecoBean.inserir()}"/>
+                        <f:actionListener binding="#{telefoneBean.inserir()}"/>
+                        <f:actionListener binding="#{cartaoCredBean.inserir()}"/>
+                    </p:commandButton>
+                </f:facet>  
+
+            </h:panelGrid> 
+                <div id="foot">
+                    <div id="asas">
+                        <h4>P.TaskMaster</h4>
+                        <h4 class="links" id="lhome"><a href="index.xhtml">Home</a></h4>
+                        <h4 class="links" id="lplanos"><a href="planos.xhtml">Planos</a></h4>
+                        <h4 class="links" id="linfo"><a href="informacoes.xhtml">Informações</a></h4>
+                        <h4 class="links" id="lfale"><a href="fale.xhtml">Fale Conosco</a></h4>
+                    </div>
+                    <div id="adress">
+                        <p>Rod. Zuera, Km 24<br/>
+                        Telefone: (11)0000-0000<br/>
+                        Itaquaquistão, Acre, Brasil</p>
+                    </div>
+                </div>                
+        </h:form>    
+        </div>
+    </h:body>
+</html>
+

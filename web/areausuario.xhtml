@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Área de Usuário</title>
+        <script src="resources/js/login.js"/>
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+        <script src="resources/js/pace-0.5.6/pace.js" type="text/javascript"></script>
+    </h:head>
+    <h:body onload="#{pessoaBean.verificaPessoa()}">
+        <div id="body">
+            <p:menubar autoDisplay="false">
+                <f:facet name="options">
+                    <div id="menuBarLogin">  
+                        <a href="areausuario.xhtml">
+                            <p:graphicImage id="logo" value="/resources/img/logos.png"/>
+                        </a>
+                        <div id="teste">
+                            <h:outputLabel for="teste" value="Bem vindo, Sr(a)  " />
+                            <a class="link" href="areausuario.xhtml">
+                                <h:outputLabel style="cursor: pointer" for="teste1" value="#{usuarioBean.usuario.email}" />
+                            </a>
+                            <p:commandButton id="logoutButton" value="Deseja Sair?" actionListener="#{usuarioBean.logout}"/>
+                        </div>
+                    </div>
+                </f:facet> 
+            </p:menubar>
+            <div id="dPainel" height="300">
+                <p:graphicImage value="/resources/img/p-user.jpg" id="painel" /> 
+            </div>
+            <h:form id="areaUsuario">
+                <div id="menuBarItens">
+                    <h:form id="frmPrincipal">
+                        <p:growl id="growl" showDetail="true" life="3000" />  
+                        <p:menubar autoDisplay="false">  
+                <p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" style="margin-left: 50px"/>  
+                <p:menuitem value="Planos" url="/planos.xhtml" icon="ui-icon-cart" style="margin-left: 200px"/>   
+                <p:menuitem value="Informações" url="/informacoes.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>  
+                <p:menuitem value="Fale Conosco" url="/fale.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>                  
+                        </p:menubar>  
+                    </h:form>
+                </div> 
+                <p:tieredMenu style="width:200px">  
+                <p:menuitem value="Usuario" url="/areausuario.xhtml"/>                    
+                    <p:submenu label="Cadastro">  
+                        <p:menuitem value="Pessoa" icon="ui-icon-plus" url="/areapessoa.xhtml"/>  
+                        <p:menuitem value="Endereço" icon="ui-icon-plus" url="/areaendereco.xhtml" />
+                        <p:menuitem value="Telefone" icon="ui-icon-plus" url="/areatelefone.xhtml" />
+                        <p:menuitem value="Cartão de Crédito" icon="ui-icon-plus" url="/areacardcred.xhtml" />
+                    </p:submenu>
+                    <p:submenu label="Grupo">
+                        <p:menuitem value="Gerenciar Grupos" url="/areagrupo.xhtml"/>
+                    </p:submenu>
+                </p:tieredMenu>
+                <div id="assuntouser">
+                    
+                </div>
+                <div id="footer">
+                    <div id="asas">
+                        <h4>P.TaskMaster</h4>
+                        <h4 class="links" id="lhome"><a href="index.xhtml">Home</a></h4>
+                        <h4 class="links" id="lplanos"><a href="planos.xhtml">Planos</a></h4>
+                        <h4 class="links" id="linfo"><a href="informacoes.xhtml">Informações</a></h4>
+                        <h4 class="links" id="lfale"><a href="fale.xhtml">Fale Conosco</a></h4>
+                    </div>
+                    <div id="adress">
+                        <p>Rod. Zuera, Km 24<br/>
+                        Telefone: (11)0000-0000<br/>
+                        Itaquaquistão, Acre, Brasil</p>
+                    </div>
+                </div>
+                    
+
+            </h:form>
+        </div>
+    </h:body>
+</html>

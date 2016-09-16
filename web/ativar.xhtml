@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:fragment rendered="#{ativar.valid}">
+            <meta http-equiv="refresh" content="3;url=index.xhtml" />
+        </ui:fragment>
+    </h:head>
+    <h:body >
+                <p:menubar autoDisplay="false">
+            <f:facet name="options">
+                <div id="menuBarLogin">                                                
+                    <p:graphicImage id="logo" value="/resources/img/logos.png" /> 
+                </div>
+            </f:facet> 
+        </p:menubar>
+        <div id="dPainel" height="300">
+            <p:graphicImage value="/resources/img/painel.png" id="painel" /> 
+        </div>
+        <div id="assunt">
+        <h:panelGroup layout="block" rendered="#{ativar.valid}">
+            <p>Sua Conta Foi Ativada com Sucesso!</p>
+            <p>Em 3 Segundos você será redirecionado para a <h:link outcome="index.xhtml">Index</h:link></p>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{!ativar.valid}">
+            <p>A Ativação falhou!</p> 
+        </h:panelGroup>
+        </div>
+    </h:body>
+</html>
+

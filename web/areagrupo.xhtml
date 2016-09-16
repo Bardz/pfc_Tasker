@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>P.TaskMaster - Área de Grupo</title>
+        <script src="resources/js/login.js"/>
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+        <script src="resources/js/pace-0.5.6/pace.js" type="text/javascript"></script>
+    </h:head>
+    <h:body>
+        <div id="body">
+            <p:menubar autoDisplay="false">
+                <f:facet name="options">
+                    <div id="menuBarLogin">
+                        <p:graphicImage id="logo" value="/resources/img/logos.png" />
+                        <div id="teste">
+                            <h:outputLabel for="teste" value="Bem vindo, Sr(a) " />
+                            <a class="link" href="areausuario.xhtml">
+                                <h:outputLabel for="teste1" value="#{usuarioBean.usuario.email}" />
+                            </a>
+                            <p:commandButton id="logoutButton" value="Deseja Sair?" actionListener="#{usuarioBean.logout}"/>
+                        </div>
+                    </div>
+                </f:facet>
+            </p:menubar>
+            <div id="dPainel" height="300">
+                <p:graphicImage value="/resources/img/p-grupo.jpg" id="painel" />
+            </div>
+            <h:form id="frmAreaGrupo">
+                <div id="menuBarItens">
+                    <h:form id="frmPrincipal">
+                        <p:growl id="growl" showDetail="true" life="3000" />
+                        <p:menubar autoDisplay="false">
+                            <p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" style="margin-left: 50px"/>  
+                            <p:menuitem value="Planos" url="/planos.xhtml" icon="ui-icon-cart" style="margin-left: 200px"/>   
+                            <p:menuitem value="Informações" url="/informacoes.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>  
+                            <p:menuitem value="Fale Conosco" url="/fale.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>                  
+                        </p:menubar>
+                    </h:form>
+                </div>
+                <div id="submenu">
+                    <p:tieredMenu style="width:200px">
+                        <p:menuitem value="Usuario" url="/areausuario.xhtml"/>
+                        <p:submenu label="Cadastro">
+                            <p:menuitem value="Pessoa" icon="ui-icon-plus" url="/areapessoa.xhtml"/>  
+                            <p:menuitem value="Endereço" icon="ui-icon-plus" url="/areaendereco.xhtml" />
+                            <p:menuitem value="Telefone" icon="ui-icon-plus" url="/areatelefone.xhtml" />
+                            <p:menuitem value="Cartão de Crédito" icon="ui-icon-plus" url="/areacardcred.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Grupo">
+                            <p:menuitem value="Gerenciar Grupos" url="/areagrupo.xhtml"/>
+                        </p:submenu>
+                    </p:tieredMenu>
+                </div>
+
+                <div id="table">
+                    <p:tabView id="tabViewGrupo" >
+                        <p:tab title="Grupos" id="tabGrupo">
+                            <p:commandButton value="Criar Novo Grupo" oncomplete="dlgGrupo.show()"/>
+                            <p:dataTable id="tabelaGrupoAdm" var="grupo" emptyMessage="Nenhum Grupo Registrado" value="#{grupoBean.gruposAdm}" rows="5"
+                                         rowKey="#{grupo.idGrupo}" selectionMode="single" selection="#{grupoBean.grupo}">
+
+                                <p:ajax id="selecionaGrupo" event="rowSelect" 
+                                        update=":frmAreaGrupo:tabViewGrupo, :frmAreaGrupo:tabViewGrupo:tabelaProjetos"  
+                                        listener="#{projetoBean.onRowSelect}"
+                                        process="@this" />
+
+                                <f:facet name="header">
+                                    Grupos que Participa
+                                </f:facet>
+                                <p:column headerText="ID" sortBy="id">
+                                    <h:outputText value="#{grupo.idGrupo}" />
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    <h:outputText value="#{grupo.nome}" />
+                                </p:column>
+                                <p:column headerText="Descrição">
+                                    <h:outputText value="#{grupo.descricao}" />
+                                </p:column>
+                                <p:column headerText="Criado em">
+                                    <h:outputText value="#{grupo.dataCri}" style="width:100px" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Ativo">
+                                    <p:selectBooleanCheckbox value="#{grupo.ativo}"/>
+                                </p:column>
+                                <p:column style="width:12%; text-align: center">
+                                    <p:commandButton update=":frmMembro" actionListener="#{grupoBean.prepararInserirMembro(grupo.idGrupo)}" oncomplete="dlgMembro.show()" icon="ui-icon-pencil" title="Adicionar Membro" rendered="#{autenticar.autenticaPermInserirMGru(grupo)}"/>
+                                    <p:commandButton update=":frmGrupoInvalidar" actionListener="#{grupoBean.prepararInserirMembro(grupo.idGrupo)}" oncomplete="dlgGrupoInvalidar.show()" icon="ui-icon-trash" title="Desativar Grupo" rendered="#{autenticar.autenticaPermExcluirGru(grupo)}"/>
+                                    <p:commandButton update=":frmCCargo" actionListener="#{grupoBean.prepararInserirMembro(grupo.idGrupo)}" oncomplete="dlgCCargo.show()" icon="ui-icon-pencil" title="Criar Cargo" rendered="#{autenticar.autenticaPermInserirMGru(grupo)}"/>              
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:blockUI block="tabViewGrupo"  id="block1" trigger="tabelaGrupoAdm"  >
+                                <b>...</b>                             
+                            </p:blockUI>
+
+                        </p:tab>
+                        <p:tab title="Projetos" id="tabProjeto">
+                            <p:commandButton value="Criar Novo Projeto" oncomplete="dlgProjeto.show()"/>
+                            <p:dataTable id="tabelaProjetos" var="proj" emptyMessage="Nenhum Projeto Registrado" value="#{projetoBean.projetosGrupo}" rows="5"
+                                         rowKey="#{proj.idProj}" selectionMode="single" selection="#{projetoBean.projeto}">
+
+                                <p:ajax id="selecionaProj" event="rowSelect" 
+                                        update=":frmAreaGrupo:tabViewGrupo, :frmAreaGrupo:tabViewGrupo:tabelaTarefas"  
+                                        listener="#{tarefaBean.onRowSelect}"
+                                        process="@this" />
+
+                                <f:facet name="header">
+                                    Projetos do Grupo Selecionado
+                                </f:facet>
+                                <p:column headerText="ID" sortBy="id">
+                                    <h:outputText value="#{proj.idProj}" />
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    <h:outputText value="#{proj.nome}" />
+                                </p:column>
+                                <p:column headerText="Descrição">
+                                    <h:outputText value="#{proj.descricao}" />
+                                </p:column>
+                                <p:column headerText="Criado em">
+                                    <h:outputText value="#{proj.dataCri}" style="width:100px" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Ativo">
+                                    <p:selectBooleanCheckbox value="#{proj.ativo}" />
+                                </p:column>
+                                <p:column headerText="Desativado em">
+                                    <h:outputText value="#{proj.dataDesat}" style="width:100px">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column style="width:12%; text-align: center">
+                                    <p:commandButton update=":frmProjInvalidar" actionListener="#{projetoBean.preparar(proj.idProj)}" rendered="#{autenticar.autenticaPermDesatProj(proj)}" oncomplete="dlgProjInvalidar.show()" icon="ui-icon-trash" title="Desativar Projeto"/>
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:blockUI block="tabViewGrupo"  id="block2" trigger="tabelaProjetos"  >
+                                <b>...</b>                             
+                            </p:blockUI>
+
+                        </p:tab>
+                        <p:tab title="Tarefas" id="tabTarefas">
+                            <p:commandButton update=":frmTarefa" value="Criar Nova Tarefa" oncomplete="dlgTarefa.show()" actionListener="#{tarefaBean.prepararCargo()}"/>
+                            <p:dataTable id="tabelaTarefas" var="tar" emptyMessage="Nenhuma Tarefa Registrada" value="#{tarefaBean.tarefasProjeto}" rows="5">
+                                <f:facet name="header">
+                                    Tarefas do Projeto Selecionado
+                                </f:facet>
+                                <p:column headerText="ID" sortBy="id">
+                                    <h:outputText value="#{tar.idTar}" />
+                                </p:column>
+                                <p:column headerText="Descrição">
+                                    <h:outputText value="#{tar.descricao}" />
+                                </p:column>
+                                <p:column headerText="Status">
+                                    <h:outputText value="#{tar.status}" />
+                                </p:column>
+                                <p:column headerText="Adicionada em:">
+                                    <h:outputText value="#{tar.dataCri}" style="width:100px" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Iniciada em:">
+                                    <h:outputText value="#{tar.dataIni}" style="width:100px" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Finalizada em:">
+                                    <h:outputText value="#{tar.dataFin}" style="width:100px" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Classificação">
+                                    <h:outputText value="#{tar.classificacao}" />
+                                </p:column>
+                                <p:column headerText="Observações">
+                                    <h:outputText value="#{tar.observacoes}" style="width:100px" />
+                                </p:column>
+                                <p:column style="width:12%; text-align: center">
+                                    <p:commandButton update=":frmTarRealizar" actionListener="#{tarefaBean.preparar(tar.idTar)}" rendered="#{tarefaBean.btnIniciar(tar)}" oncomplete="dlgTarRealizar.show()" icon="ui-icon-pencil" title="Iniciar Tarefa" />
+                                    <p:commandButton update=":frmTarFinalizar" actionListener="#{tarefaBean.preparar(tar.idTar)}" rendered="#{tarefaBean.btnFinalizar(tar)}" oncomplete="dlgTarFinalizar.show()" icon="ui-icon-pencil" title="Finalizar Tarefa" />
+                                    <p:commandButton update=":frmTarClassificar" actionListener="#{tarefaBean.preparar(tar.idTar)}" rendered="#{tarefaBean.btnClassificar(tar)}" oncomplete="dlgTarClassificar.show()" icon="ui-icon-pencil" title="Classificar Tarefa" />
+                                    <p:commandButton update=":frmTarInvalidar" actionListener="#{tarefaBean.preparar(tar.idTar)}" oncomplete="dlgTarInvalidar.show()" icon="ui-icon-trash" title="Desativar Tarefa"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                    </p:tabView>
+                </div>
+            </h:form>
+
+            <h:form id="frmGrupo">
+                <p:dialog header="Criar Grupo" widgetVar="dlgGrupo" resizable="false" id="dlgGrupo" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Nome do Grupo:"/>
+                        &nbsp;
+                        <h:inputText value="#{grupoBean.grupo.nome}" style="width: 200px"/>
+                        &nbsp;
+
+                        <h:outputText value="Descrição do Grupo:"/>
+                        &nbsp;
+                        <h:inputTextarea value="#{grupoBean.grupo.descricao}" style="width: 200px"/>
+                        &nbsp;
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Criar Grupo" update=":frmAreaGrupo:tabViewGrupo:tabelaGrupoAdm, growl"
+                                             oncomplete="dlgGrupo.hide()" actionListener="#{grupoBean.inserir()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgGrupo.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmMembro">
+                <p:dialog header="Adicionar Membro ao Grupo" widgetVar="dlgMembro" resizable="false" id="dlgMembro" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Digite o E-Mail do Membro a ser Adicionado:"/>
+                        &nbsp;
+                        <h:inputText binding="#{email}"  style="width: 200px"/>
+                        &nbsp;
+                        <h:outputLabel value="Selecione um Perfil:" />
+                        &nbsp;
+                        <p:selectOneMenu id="perfil" value="#{ativmembrosBean.ativMembros.perfil}" required="true"  requiredMessage="Informe um Perfil" converter="perfilConverter"  style="font-weight:bold; width: 208px;">
+                            <f:selectItems value="#{perfilBean.perfis}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
+                        </p:selectOneMenu>
+                        &nbsp;
+                        <h:outputLabel value="Selecione um Cargo para o Membro:" />
+                        &nbsp;
+                        <p:selectOneMenu id="cargo" value="#{ativmembrosBean.ativMembros.cargo}" required="true" requiredMessage="Informe um Cargo" converter="cargoConverter" style="font-weight:bold; width: 208px;">
+                            <f:selectItems value="#{cargoBean.cargoUser}" var="c" itemLabel="#{c.nome}" itemValue="#{c}"/>
+                        </p:selectOneMenu>
+                        &nbsp;
+                        <f:facet name="footer">
+                            <p:commandButton value="Adicionar" update="growl"
+                                             oncomplete="dlgMembro.hide()" actionListener="#{grupoBean.inserirMembro(email.value)}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgMembro.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmGrupoInvalidar">  
+
+                <p:growl id="growl" showDetail="true" />
+
+                <p:confirmDialog id="dlgGrupoInvalidar" widgetVar="dlgGrupoInvalidar" message="Deseja Desativar este Grupo?" severity="alert" header="Desativar Grupo">  
+                    <p:commandButton value="Desativar" update=":frmAreaGrupo:tabViewGrupo:tabelaGrupoAdm, growl, dlgGrupoInvalidar" oncomplete="dlgGrupoInvalidar.hide()" actionListener="#{grupoBean.desativar()}" icon="ui-icon-check"/>  
+                    <p:commandButton value="Cancelar" update=":frmAreaGrupo:tabViewGrupo:tabelaGrupoAdm" icon="ui-icon-disk" oncomplete="dlgGrupoInvalidar.hide()"/>       
+                </p:confirmDialog>   
+
+            </h:form>
+
+            <h:form id="frmCCargo">
+                <p:dialog header="Criar Cargo para o Grupo" widgetVar="dlgCCargo" resizable="false" id="dlgCCargo" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Digite o Nome do Cargo:"/>
+                        &nbsp;
+                        <h:inputText value="#{cargoBean.cargo.nome}"  style="width: 200px"/>
+                        &nbsp;
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Adicionar" update="growl"
+                                             oncomplete="dlgCCargo.hide()" actionListener="#{cargoBean.inserir()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgCCargo.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmProjeto">
+                <p:dialog header="Adicionar Projeto" widgetVar="dlgProjeto" resizable="false" id="dlgProjeto" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Nome do Projeto:"/>
+                        &nbsp;
+                        <h:inputText value="#{projetoBean.projeto.nome}" style="width: 200px"/>
+                        &nbsp;
+
+                        <h:outputText value="Descrição do Projeto:"/>
+                        &nbsp;
+                        <h:inputTextarea value="#{projetoBean.projeto.descricao}" style="width: 200px"/>
+                        &nbsp;
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Criar Projeto" update=":frmAreaGrupo:tabViewGrupo:tabelaProjetos, growl"
+                                             oncomplete="dlgProjeto.hide()" actionListener="#{projetoBean.inserir()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgGrupo.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmProjInvalidar">  
+
+                <p:growl id="growl" showDetail="true" />
+
+                <p:confirmDialog id="dlgProjInvalidar" widgetVar="dlgProjInvalidar" message="Deseja Desativar este Projeto?" severity="alert" header="Desativar Projeto">  
+                    <p:commandButton value="Desativar" update=":frmAreaGrupo:tabViewGrupo:tabelaProjetos, growl, dlgProjInvalidar" oncomplete="dlgProjInvalidar.hide()" actionListener="#{projetoBean.desativar()}" icon="ui-icon-check"/>  
+                    <p:commandButton value="Cancelar" update=":frmAreaGrupo:tabViewGrupo:tabelaProjetos" icon="ui-icon-disk" oncomplete="dlgProjInvalidar.hide()"/>       
+                </p:confirmDialog>   
+            </h:form>   
+
+            <h:form id="frmTarefa">
+                <p:dialog header="Adicionar Tarefa" widgetVar="dlgTarefa" resizable="false" id="dlgTarefa" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Descrição da Tarefa:"/>
+                        &nbsp;
+                        <h:inputText value="#{tarefaBean.tarefa.descricao}" style="width: 200px"/>
+                        &nbsp;
+
+                        <h:outputText value="Observações da Tarefa:"/>
+                        &nbsp;
+                        <h:inputTextarea value="#{tarefaBean.tarefa.observacoes}" style="width: 200px"/>
+                        &nbsp;
+
+                        <h:outputText value="Cargo:"/>
+                        &nbsp;
+                        <p:selectOneMenu id="cargo" value="#{tarefaBean.tarefa.cargo}" required="true" requiredMessage="Informe um Cargo" converter="cargoConverter" style="font-weight:bold; width: 208px;">
+                            <f:selectItems value="#{cargoBean.cargoUser}" var="c" itemLabel="#{c.nome}" itemValue="#{c}"/>
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Criar Tarefa" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas, growl"
+                                             oncomplete="dlgTarefa.hide()" actionListener="#{tarefaBean.cadastrar()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgTarefa.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="frmTarInvalidar">  
+
+                <p:growl id="growl" showDetail="true" />
+
+                <p:confirmDialog id="dlgTarInvalidar" widgetVar="dlgTarInvalidar" message="Deseja Desativar esta Tarefa?" severity="alert" header="Desativar Tarefa">  
+                    <p:commandButton value="Desativar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas, growl, dlgTarInvalidar" oncomplete="dlgTarInvalidar.hide()" actionListener="#{tarefaBean.desativar()}" icon="ui-icon-check"/>  
+                    <p:commandButton value="Cancelar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas" icon="ui-icon-disk" oncomplete="dlgTarInvalidar.hide()"/>       
+                </p:confirmDialog>   
+
+            </h:form>
+
+            <h:form id="frmTarRealizar">  
+
+                <p:growl id="growl" showDetail="true" />
+
+                <p:confirmDialog id="dlgTarRealizar" widgetVar="dlgTarRealizar" message="Deseja Iniciar esta Tarefa?" severity="alert" header="Iniciar Tarefa">
+
+                    <p:commandButton value="Iniciar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas, growl, dlgTarRealizar" oncomplete="dlgTarRealizar.hide()" actionListener="#{tarefaBean.iniciar()}" icon="ui-icon-check"/>  
+                    <p:commandButton value="Cancelar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas" icon="ui-icon-disk" oncomplete="dlgTarRealizar.hide()"/>       
+
+                </p:confirmDialog>
+
+            </h:form>
+
+            <h:form id="frmTarFinalizar">  
+
+                <p:growl id="growl" showDetail="true" />
+
+                <p:confirmDialog id="dlgTarFinalizar" widgetVar="dlgTarFinalizar" message="Deseja Finalizar esta Tarefa?" severity="alert" header="Finalizar Tarefa">
+
+                    <p:commandButton value="Finalizar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas, growl, dlgTarFinalizar" oncomplete="dlgTarFinalizar.hide()" actionListener="#{tarefaBean.finalizar()}" icon="ui-icon-check"/>  
+                    <p:commandButton value="Cancelar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas" icon="ui-icon-disk" oncomplete="dlgTarFinalizar.hide()"/>       
+
+                </p:confirmDialog>
+
+            </h:form>
+
+            <h:form id="frmTarClassificar">
+
+                <p:dialog header="Classifique a Tarefa Realizada" widgetVar="dlgTarClassificar" resizable="false" id="dlgTarClassificar" modal="true">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid id="display1" columns="2" cellpadding="4" style="margin:0 auto;">
+
+                        <h:outputText value="Por Favor, Classifique a Tarefa:"/>
+                        &nbsp;
+                        <p:rating value="#{tarefaBean.tarefa.classificacao}"  style="width: 200px"/>
+                        &nbsp;
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Classificar" update=":frmAreaGrupo:tabViewGrupo:tabelaTarefas, growl, dlgTarClassificar"
+                                             oncomplete="dlgTarClassificar.hide()" actionListener="#{tarefaBean.classificar()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" oncomplete="dlgTarClassificar.hide()"/>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+

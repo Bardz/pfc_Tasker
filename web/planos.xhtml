@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>P.TaskMaster - Planos</title>
+        <script src="resources/js/login.js"/>
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+        <script src="resources/js/pace-0.5.6/pace.js" type="text/javascript"></script>
+    </h:head>
+    <h:body>
+        <p:menubar autoDisplay="false">
+            <f:facet name="options">
+                <div id="menuBarLogin">                                                
+                    <p:graphicImage id="logo" value="/resources/img/logos.png" /> 
+                    <p:commandButton id="button" type="button" value="Login" onclick="PF('dlg').show()" icon="ui-icon-newwin" />  
+                </div>
+            </f:facet> 
+        </p:menubar>
+        <div id="dPainel" height="300">
+            <p:graphicImage value="/resources/img/p-plano.jpg" id="painel" /> 
+        </div>
+        <div id="menuBarItens">
+            <h:form id="frmPlanos">
+                <p:growl id="growl" showDetail="true" life="3000" />  
+                <p:menubar autoDisplay="false">  
+                <p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home" style="margin-left: 50px"/>  
+                <p:menuitem value="Planos" url="/planos.xhtml" icon="ui-icon-cart" style="margin-left: 200px"/>   
+                <p:menuitem value="Informações" url="/informacoes.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>  
+                <p:menuitem value="Fale Conosco" url="/fale.xhtml" icon="ui-icon-zoomin" style="margin-left: 200px"/>                  
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <div id="assunto">
+            <p:growl id="growl" sticky="false" showDetail="true"  life="3000" autoUpdate="true"/>
+            <h1>Planos Disponiveis:</h1>
+            <div id="free" class="planos">
+                <h3>Plano Free</h3>
+                <p class="text">O plano Free consiste em uma experiência simplória do sistema, uma mera apresentação do que o sistema é realmente capaz.</p>
+                <p class="text">O plano possibilita a criação de apenas um grupo de trabalho e apenas um projeto.</p>
+            </div>
+            <div id="bronze" class="planos">
+                <h3>Plano Bronze</h3>
+                <p class="text">O plano Bronze visa empresas de pequeno porte, onde o objetivo precisa ser atingido rapidamente e de forma muito econômica.</p>
+                <p class="text">O plano possibilita a criação de três grupos de trabalho e dois projeto mensais por grupo.</p>            
+            </div>
+            <div id="prata" class="planos">
+                <h3>Plano Silver</h3>
+                <p class="text">O plano Silver visa empresas de pequeno e médio porte, onde o objetivo é a otimização do processo da forma o mais ágil o possível.</p>
+                <p class="text">O plano possibilita a criação de cinco grupos de trabalho e quatro projeto mensais por grupo.</p>            
+            </div>
+            <div id="ouro" class="planos">
+                <h3>Plano Gold</h3>
+                <p class="text">O plano Gold visa empresas de médio e grande porte, onde o objetivo principal é a qualidade do produto.</p>
+                <p class="text">O plano possibilita a criação de dez grupos de trabalho e quarenta projetos mensais.</p>            
+            </div>
+            <div id="platina" class="planos">
+                <h3>Plano Platinum</h3>
+                <p class="text">O plano Platinum é o ápice do sistema, foi criado visando as empresas de grande porte e tem como objetivo, agilidade, qualidade e economia, no produto.</p>
+                <p class="text">O plano possibilita a criação de trinta grupos de Trabalho e não tem limites para projetos.</p>     
+            </div>
+
+
+            <div class="criarConta">
+                <p:commandButton id="cConta" type="button" value="Criar Conta" onclick="PF('dlgCConta').show()"/>
+            </div>
+        </div>
+                <div id="footer">
+                    <div id="asas">
+                        <h4>P.TaskMaster</h4>
+                        <h4 class="links" id="lhome"><a href="index.xhtml">Home</a></h4>
+                        <h4 class="links" id="lplanos"><a href="planos.xhtml">Planos</a></h4>
+                        <h4 class="links" id="linfo"><a href="informacoes.xhtml">Informações</a></h4>
+                        <h4 class="links" id="lfale"><a href="fale.xhtml">Fale Conosco</a></h4>
+                    </div>
+                    <div id="adress">
+                        <p>Rod. Zuera, Km 24<br/>
+                        Telefone: (11)0000-0000<br/>
+                        Itaquaquistão, Acre, Brasil</p>
+                    </div>
+                </div>
+        
+        
+        <h:form id="frmLogin">
+            
+                <p:growl id="growl" showDetail="true" life="3000" />  
+                <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false" width="450" modal="true">  
+
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <h:outputLabel for="email" value="E-Mail:" />  
+                        <p:inputText value="#{usuarioBean.usuario.email}" id="email" required="true" label="email" />  
+                        <h:outputLabel for="password" value="Senha:" />  
+                        <h:inputSecret value="#{usuarioBean.usuario.senha}" id="password" required="true" label="password" />  
+
+                        <h:outputText value="Não Possui uma Conta?"/><br/>
+                        <h:link rel="/planos.xhtml" value="Cadastre-se Aqui!"/>
+
+                        <f:facet name="footer">  
+                            <p:commandButton id="loginButton" value="Logar" update="growl" actionListener="#{usuarioBean.login}" accesskey="" 
+                                             oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                        </f:facet>    
+                        
+                    </h:panelGrid>  
+                </p:dialog>
+                <p:blockUI block="dialog" trigger="loginButton" > 
+                    <p:graphicImage value="/resources/img/page-loaders.gif" height="100" width="100"/>
+                </p:blockUI> 
+
+        </h:form>
+
+        <h:form id="frmCConta">
+
+            <p:dialog id="dialogCriarConta" header="Crie sua Conta" widgetVar="dlgCConta" resizable="false" modal="true">  
+
+                <h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputLabel value="E-Mail:" />  
+                    <h:inputText value="#{usuarioBean.usuario.email}" style="width: 200px" id="email" label="email" required="true"/>
+                    <h:outputLabel value="Senha:" />  
+                    <p:password value="#{usuarioBean.usuario.senha}" feedback="true" style="width: 200px" id="password" label="password" required="true" promptLabel="Por Favor Digite a Senha" weakLabel="Fraca" goodLabel="Média" strongLabel="Forte" />
+                    <p:selectOneMenu id="plano" value="#{usuarioBean.usuario.plano}" required="true"  requiredMessage="Informe um Plano" converter="planoConverter"  style="font-weight:bold; width: 208px;">
+                        <f:selectItems value="#{planoBean.planos}" var="p" itemLabel="#{p.nome}" itemValue="#{p}"/>
+                    </p:selectOneMenu>
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="btnConta" value="Criar Conta" update=":frmPlanos:growl" 
+                                         oncomplete="dlgCConta.hide()" actionListener="#{usuarioBean.inserir()}"/>
+                    </f:facet>  
+                </h:panelGrid>  
+            </p:dialog>  
+        </h:form>
+
+    </h:body>
+</html>
+
